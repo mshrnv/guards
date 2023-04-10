@@ -1,9 +1,9 @@
 const Router = require('express')
 const studentRouter = new Router()
+const studentController = require('../controllers/studentController')
 
-studentRouter.get('/', (req, res) => {
-    res.json({data: ['Список студентов']})
-})
-studentRouter.get('/:id')
+studentRouter.post('/', studentController.create)
+studentRouter.get('/', studentController.getAll)
+studentRouter.get('/:id', studentController.getOne)
 
 module.exports = studentRouter

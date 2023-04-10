@@ -1,7 +1,9 @@
 const Router = require('express')
 const guardRouter = new Router()
+const guardController = require('../controllers/guardController')
 
-guardRouter.get('/')
-guardRouter.get('/:id')
+guardRouter.post('/', guardController.create)
+guardRouter.get('/', guardController.getAll)
+guardRouter.get('/:id', guardController.getOne)
 
 module.exports = guardRouter
