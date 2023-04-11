@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 const NavigationBar = () => {
     return (
-        <Navbar fluid={true} >
+        <Navbar fluid={true} className="mb-4">
             <Navbar.Brand>
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">👮‍♂️ Guards</span>
             </Navbar.Brand>
