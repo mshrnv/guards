@@ -41,7 +41,6 @@ class StudentController {
             }
 
             const student = await Student.findOne({where: {id}})
-
             if (!student) {
                 return next(ApiError.badRequest("Студента с таким ID не существует"))
             }
@@ -52,7 +51,50 @@ class StudentController {
         }
     }
 
-    // TODO: Delete, Update
+    async update(req, res, next) {
+        try {
+            const {id} = req.params
+
+            if (!id) {
+                return next(ApiError.badRequest("Некорректный ID студента"))
+            }
+
+            const {fio, group} = req.body
+            if (!fio || !group) {
+                return next(ApiError.badRequest("Некорректные новые значения ФИО и группы"))
+            }
+
+            const candidate = await Student.findOne({where: {id}})
+            if (!candidate) {
+                return next(ApiError.badRequest("Студента с таким ID не существует"))
+            }
+
+            const updatedStudent = await Student.update({fio, group}, {where: {id}})
+            return res.json(updatedStudent)
+        } catch (e) {
+            return next(ApiError.badRequest(e.message))
+        }
+    }
+
+    async delete(req, res, next) {
+        try {
+            const {id} = req.params
+
+            if (!id) {
+                return next(ApiError.badRequest("Некорректный ID студента"))
+            }
+
+            const candidate = await Student.findOne({where: {id}})
+            if (!candidate) {
+                return next(ApiError.badRequest("Студента с таким ID не существует"))
+            }
+
+            const deletedStudent = await candidate.destroy()
+            return res.json(deletedStudent)
+        } catch (e) {
+            return next(ApiError.badRequest(e.message))
+        }
+    }
 }
 
 module.exports = new StudentController()
