@@ -1,11 +1,97 @@
+const ApiError = require("../error/ApiError")
+const {Guard} = require("../models/models")
+
 class GuardController {
-    async create(req, res) {}
-    async getAll(req, res) {}
-    async getOne(req, res) {
-        res.json({message: `Наряд с ID = ${req.params.id}`})
+    async create(req, res, next) {
+        try {
+            const {date, typeId} = req.body
+
+            if (!date || !typeId) {
+                return next(ApiError.badRequest("Некорректная дата или тип"))
+            }
+
+            const candidate = await Guard.findOne({where: {date, typeId}})
+            if (candidate) {
+                return next(ApiError.badRequest('Наряд уже существует'))
+            }
+
+            const guard = await Guard.create({date, typeId})
+            return res.json(guard)
+        } catch (e) {
+            return next(ApiError.badRequest(e.message))
+        }
+    }
+    async getAll(req, res, next) {
+        try {
+            const guards = await Guard.findAll()
+            return res.json(guards)
+        } catch (e) {
+            return next(ApiError.badRequest(e.message))
+        }
+    }
+    async getOne(req, res, next) {
+        try {
+            const {id} = req.params
+
+            if (!id) {
+                return next(ApiError.badRequest("Некорректный ID наряда"))
+            }
+
+            const guard = await Guard.findOne({where: {id}})
+            if (!guard) {
+                return next(ApiError.badRequest("Наряда с таким ID не существует"))
+            }
+
+            return res.json(guard)
+        } catch (e) {
+            return next(ApiError.badRequest(e.message))
+        }
     }
 
-    // TODO: Delete, Update
+    async update(req, res, next) {
+        try {
+            const {id} = req.params
+
+            if (!id) {
+                return next(ApiError.badRequest("Некорректный ID наряда"))
+            }
+
+            const {date, typeId} = req.body
+            if (!date || !typeId) {
+                return next(ApiError.badRequest("Некорректные новые значения даты и типа"))
+            }
+
+            const candidate = await Guard.findOne({where: {id}})
+            if (!candidate) {
+                return next(ApiError.badRequest("Наряда с таким ID не существует"))
+            }
+
+            const updatedGuard = await Guard.update({date, typeId}, {where: {id}})
+            return res.json(updatedGuard)
+        } catch (e) {
+            return next(ApiError.badRequest(e.message))
+        }
+    }
+
+    async delete(req, res, next) {
+        try {
+            const {id}  = req.params
+
+            if (!id) {
+                return next(ApiError.badRequest("Некорректный ID наряда"))
+            }
+
+            const candidate = await Guard.findOne({where: {id}})
+            if (!candidate) {
+                return next(ApiError.badRequest("Наряда с таким ID не существует"))
+            }
+
+            const deletedGuard = await candidate.destroy()
+            return res.json(deletedGuard)
+        } catch (e) {
+            return next(ApiError.badRequest(e.message))
+        }
+    }
 }
 
 module.exports = new GuardController()
