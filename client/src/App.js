@@ -1,18 +1,12 @@
 import React from "react";
-import {Button} from "flowbite-react";
+import {BrowserRouter} from "react-router-dom";
+import AppRouter from "./components/AppRouter";
 
 function App() {
     return (
-        <div className="App">
-            <h1 className="text-3xl font-bold underline">
-                Hello world!
-            </h1>
-            <div>
-                <Button gradientMonochrome="success">
-                    Success
-                </Button>
-            </div>
-        </div>
+        <BrowserRouter>
+            <AppRouter />
+        </BrowserRouter>
     );
 }
 
