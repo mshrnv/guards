@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useParams} from "react-router-dom";
 import {Breadcrumb} from "flowbite-react";
 import {fetchGuardById} from "../api/guardAPI";
+import GuardCard from "../components/GuardCard";
 
 const GuardItemPage = () => {
 
@@ -14,7 +15,7 @@ const GuardItemPage = () => {
 
     return (
         <div className="w-3/4 mx-auto">
-            <Breadcrumb className="bg-gray-50 py-3 px-5 dark:bg-gray-900">
+            <Breadcrumb className="bg-gray-50 py-3 px-5 dark:bg-gray-900 mb-8">
                 <Breadcrumb.Item>
                     <Link to='/guards'>
                         Наряды
@@ -25,7 +26,7 @@ const GuardItemPage = () => {
                 </Breadcrumb.Item>
             </Breadcrumb>
 
-            <h1>{guard.type.name}</h1>
+            <GuardCard guard={guard} />
         </div>
     );
 };
