@@ -1,5 +1,5 @@
 const ApiError = require("../error/ApiError")
-const {Guard} = require("../models/models")
+const {Guard, Type} = require("../models/models")
 
 class GuardController {
     async create(req, res, next) {
@@ -23,7 +23,14 @@ class GuardController {
     }
     async getAll(req, res, next) {
         try {
-            const guards = await Guard.findAll()
+            const {date} = req.query
+
+            if (date) {
+                const guards = await Guard.findAll({where: {date}, include: [Type]})
+                return res.json(guards)
+            }
+
+            const guards = await Guard.findAll({include: [Type]})
             return res.json(guards)
         } catch (e) {
             return next(ApiError.badRequest(e.message))

@@ -1,9 +1,10 @@
 import React from 'react';
+import GuardsCalendar from "../components/GuardsCalendar";
 
 const GuardsPage = () => {
     return (
         <div>
-            Все наряды
+            <GuardsCalendar />
         </div>
     );
 };
