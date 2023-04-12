@@ -6,8 +6,11 @@ export const fetchGuards = async () => {
 }
 
 export const fetchGuardsAtDate = async (date) => {
-    console.log(date)
     const {data} = await $host.get('api/guard', {params: {date: date}})
-    console.log(data)
+    return data
+}
+
+export const fetchGuardById = async (_id) => {
+    const {data} = await $host.get('api/guard', {params: {id: _id}})
     return data
 }

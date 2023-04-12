@@ -1,27 +1,24 @@
 import React, {useEffect, useState} from 'react';
 import {Badge} from "flowbite-react";
-import {useFetching} from "../hooks/useFetching";
 import {fetchGuardsAtDate} from "../api/guardAPI";
+import {Link} from "react-router-dom";
 
 const GuardsCalendarItem = ({date}) => {
 
     const [guards, setGuards] = useState([])
 
-    const [fetchOneDateGuards, isGuardsLoading, guardsError] = useFetching(async (date) => {
-        const response = await fetchGuardsAtDate(date)
-        setGuards(response)
-    })
-
     useEffect(() => {
-        fetchOneDateGuards(date)
+        fetchGuardsAtDate(date).then(data => setGuards(data))
     }, [])
 
     return (
         <div>
             {guards.map((item) => (
-                <Badge key={date + item.type.name} color="indigo" size="sm" className="mb-1">
-                    {item.type.name}
-                </Badge>
+                <Link to={"/guard/" + item.id}>
+                    <Badge href key={date + item.type.name} color="indigo" size="sm" className="mb-1">
+                        {item.type.name}
+                    </Badge>
+                </Link>
             ))}
         </div>
     );
