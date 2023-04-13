@@ -30,6 +30,7 @@ const TypeRole = sequelize.define('type_role', {
 
 const StudentGuard = sequelize.define('student_guard', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    roleNum: {type: DataTypes.INTEGER, allowNull: false}
 })
 
 Type.hasMany(Guard)
@@ -38,11 +39,23 @@ Guard.belongsTo(Type)
 Role.hasMany(StudentGuard)
 StudentGuard.belongsTo(Role)
 
-Student.belongsToMany(Guard, {through: StudentGuard})
-Guard.belongsToMany(Student, {through: StudentGuard})
+Guard.hasMany(StudentGuard)
+StudentGuard.belongsTo(Guard)
 
-Type.belongsToMany(Role, {through: TypeRole})
-Role.belongsToMany(Type, {through: TypeRole})
+Student.hasMany(StudentGuard)
+StudentGuard.belongsTo(Student)
+
+// Student.belongsToMany(Guard, {through: StudentGuard})
+// Guard.belongsToMany(Student, {through: StudentGuard})
+
+Type.hasMany(TypeRole)
+TypeRole.belongsTo(Type)
+
+Role.hasMany(TypeRole)
+TypeRole.belongsTo(Role)
+
+// Type.belongsToMany(Role, {through: TypeRole})
+// Role.belongsToMany(Type, {through: TypeRole})
 
 module.exports = {
     Student,

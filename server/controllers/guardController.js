@@ -1,5 +1,5 @@
 const ApiError = require("../error/ApiError")
-const {Guard, Type} = require("../models/models")
+const {Guard, Type, StudentGuard, Role, TypeRole, Student} = require("../models/models")
 
 class GuardController {
     async create(req, res, next) {
@@ -49,7 +49,17 @@ class GuardController {
                 return next(ApiError.badRequest("Некорректный ID наряда"))
             }
 
-            const guard = await Guard.findOne({where: {id}})
+            const guard = await Guard.findOne({where: {id}, include: [
+                    {model: StudentGuard, include: [
+                            {model: Student}
+                        ]},
+                    {model: Type, include: [
+                            {model: TypeRole, include: [
+                                    {model: Role},
+                                ]}
+                        ]}
+                ]})
+
             if (!guard) {
                 return next(ApiError.badRequest("Наряда с таким ID не существует"))
             }
