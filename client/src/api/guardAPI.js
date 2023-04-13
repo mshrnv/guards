@@ -11,6 +11,6 @@ export const fetchGuardsAtDate = async (date) => {
 }
 
 export const fetchGuardById = async (_id) => {
-    const {data} = await $host.get('api/guard', {params: {id: _id}})
+    const {data} = await $host.get('api/guard/' + _id)
     return data
 }

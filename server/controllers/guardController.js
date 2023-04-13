@@ -23,12 +23,7 @@ class GuardController {
     }
     async getAll(req, res, next) {
         try {
-            const {id, date} = req.query
-
-            if (id) {
-                const guards = await Guard.findOne({where: {id}, include: [Type]})
-                return res.json(guards)
-            }
+            const {date} = req.query
 
             if (date) {
                 const guards = await Guard.findAll({where: {date}, include: [Type]})
