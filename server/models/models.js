@@ -21,6 +21,7 @@ const Type = sequelize.define('type', {
 const Role = sequelize.define('role', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, allowNull: false, unique: true},
+    color: {type: DataTypes.STRING, allowNull: false, default: "green"},
 })
 
 const TypeRole = sequelize.define('type_role', {

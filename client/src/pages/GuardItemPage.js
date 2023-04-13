@@ -6,7 +6,7 @@ import GuardCard from "../components/GuardCard";
 
 const GuardItemPage = () => {
 
-    const [guard, setGuard] = useState({type: []})
+    const [guard, setGuard] = useState({type: {type_roles: []}})
     const {id} = useParams()
 
     useEffect(() => {
